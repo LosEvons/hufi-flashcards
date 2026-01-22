@@ -21,7 +21,6 @@ function ListCardsPage({ deckId }) {
   return (
     <div>
       <h2>{deckName || 'Deck'}</h2>
-      <p>Cards in this deck will be listed below once fetched from the backend.</p>
 
       {loading ? (
         <p>Loading...</p>
