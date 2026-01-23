@@ -6,7 +6,7 @@ const { all, get, run } = require('../db');
 router.get('/', (req, res) => {
   try {
     const rows = all(
-      `SELECT d.id, d.name, d.description, d.created_at,
+      `SELECT d.id, d.name, d.created_at,
         (SELECT COUNT(*) FROM Card c WHERE c.deck_id = d.id) AS cardCount
        FROM Deck d
        ORDER BY d.created_at DESC`
@@ -20,11 +20,11 @@ router.get('/', (req, res) => {
 
 // Create deck
 router.post('/', (req, res) => {
-  const { name, description } = req.body || {};
+  const { name } = req.body || {};
   if (!name) return res.status(400).json({ error: 'name is required' });
   try {
-    const info = run('INSERT INTO Deck (name, description) VALUES (?, ?)', [name, description || null]);
-    const deck = get('SELECT id, name, description FROM Deck WHERE id = ?', [info.lastInsertRowid]);
+    const info = run('INSERT INTO Deck (name) VALUES (?)', [name]);
+    const deck = get('SELECT id, name FROM Deck WHERE id = ?', [info.lastInsertRowid]);
     res.status(201).json(deck);
   } catch (err) {
     console.error(err);

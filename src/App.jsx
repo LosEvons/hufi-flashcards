@@ -3,8 +3,8 @@ import './App.css'
 import Button from './components/Button'
 import Home from './components/Home'
 import { BrowserRouter as Router, Routes, Route, NavLink, Link } from 'react-router-dom'
-import ListCardsPage from './pages/CreateCardPage'
-import ListDecksPage from './pages/CreateDeckPage'
+import ListCardsPage from './pages/ListCardsPage'
+import ListDecksPage from './pages/ListDecksPage'
 
 function App() {
   return (
