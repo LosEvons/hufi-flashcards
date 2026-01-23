@@ -42,3 +42,52 @@ button {
     padding: 2em;
   }
 }
+
+.app-title {
+  margin: 0;
+  padding-top: 0.25rem;
+}
+
+.app-header {
+  display: flex;
+  justify-content: center;
+  padding: 0.75rem 0; /* added padding for neat spacing */
+}
+
+.nav {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.nav-link {
+  padding: 0.5rem 0.75rem; /* spacing inside each button/link */
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-link.active {
+  background-color: rgba(0,0,0,0.06);
+}
+
+.app-main {
+  margin-top: 1rem;
+  padding: 0.5rem; /* small padding for main content */
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.primary-button {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 3px;
+  background-color: #ce3030;
+  color: white;
+  text-decoration: none;
+}
