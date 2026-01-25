@@ -1,9 +1,7 @@
-import React from 'react'
 import FlashcardForm from '../components/FlashcardForm'
 
-function CreateCardPage() {
+const CreateCardPage = () => {
   const handleSubmit = (data) => {
-    // Placeholder: replace with real persistence later
     console.log('New flashcard:', data)
     alert('Flashcard saved (check console)')
   }

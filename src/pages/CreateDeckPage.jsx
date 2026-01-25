@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import DeckForm from '../components/DeckForm'
 
-function CreateDeckPage() {
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000'
+
+const CreateDeckPage = () => {
   const [decks, setDecks] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000'
 
   const handleCreate = async (deck) => {
     setError(null)
@@ -20,7 +20,7 @@ function CreateDeckPage() {
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: res.statusText }))
-        const msg = err && (err.error || err.message) ? err.error || err.message : 'Failed to create deck'
+        const msg = err?.error || err?.message || 'Failed to create deck'
         setError(msg)
         alert(`Error: ${msg}`)
         return

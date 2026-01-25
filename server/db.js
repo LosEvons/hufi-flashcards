@@ -7,6 +7,7 @@ const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', 'db', 'test.sq
 // Ensure directory exists
 const dbDir = path.dirname(DB_PATH);
 if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+
 // Ensure file exists
 if (!fs.existsSync(DB_PATH)) fs.writeFileSync(DB_PATH, '');
 
@@ -19,24 +20,19 @@ function migrate() {
     return;
   }
   const sql = fs.readFileSync(schemaPath, 'utf8');
-  if (sql && sql.trim()) {
-    db.exec(sql);
-  }
+  if (sql?.trim()) db.exec(sql);
 }
 
 function all(sql, params = []) {
-  const stmt = db.prepare(sql);
-  return stmt.all(...params);
+  return db.prepare(sql).all(...params);
 }
 
 function get(sql, params = []) {
-  const stmt = db.prepare(sql);
-  return stmt.get(...params);
+  return db.prepare(sql).get(...params);
 }
 
 function run(sql, params = []) {
-  const stmt = db.prepare(sql);
-  return stmt.run(...params);
+  return db.prepare(sql).run(...params);
 }
 
 module.exports = { db, migrate, all, get, run };

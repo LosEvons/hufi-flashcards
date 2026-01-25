@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Button from './Button'
 import FormField from './FormField'
 
-function DeckForm({ onSubmit }) {
+const DeckForm = ({ onSubmit }) => {
   const [name, setName] = useState('')
+  
   const handleSubmit = (e) => {
     e.preventDefault()
     const deck = { id: Date.now(), name: name.trim() }
-    if (onSubmit) onSubmit(deck)
+    onSubmit?.(deck)
     setName('')
   }
 

@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import FormField from './FormField'
 import Button from './Button'
 
-function FlashcardForm({ onSubmit }) {
+const FlashcardForm = ({ onSubmit }) => {
   const [finnish, setFinnish] = useState('')
   const [hungarian, setHungarian] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const data = { finnish: finnish.trim(), hungarian: hungarian.trim() }
-    if (onSubmit) onSubmit(data)
+    onSubmit?.(data)
     setFinnish('')
     setHungarian('')
   }
@@ -25,7 +25,7 @@ function FlashcardForm({ onSubmit }) {
       </FormField>
 
       <div>
-        <Button>Save Flashcard</Button>
+        <Button type="submit">Save Flashcard</Button>
       </div>
     </form>
   )
