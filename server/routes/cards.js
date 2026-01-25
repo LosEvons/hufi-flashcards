@@ -3,7 +3,7 @@ const router = express.Router();
 const { all, get, run } = require('../db');
 
 // List cards for a deck
-router.get('/decks/:deckId/cards', async (req, res) => {
+router.get('/decks/:deckId/cards', (req, res) => {
   const deckId = Number(req.params.deckId);
   if (!deckId) return res.status(400).json({ error: 'invalid deckId' });
   
@@ -20,7 +20,7 @@ router.get('/decks/:deckId/cards', async (req, res) => {
 });
 
 // Add a card to a deck
-router.post('/decks/:deckId/cards', async (req, res) => {
+router.post('/decks/:deckId/cards', (req, res) => {
   const deckId = Number(req.params.deckId);
   const { finnish, hungarian } = req.body || {};
   if (!deckId || !finnish || !hungarian) {
@@ -41,7 +41,7 @@ router.post('/decks/:deckId/cards', async (req, res) => {
 });
 
 // Edit a card
-router.put('/cards/:cardId', async (req, res) => {
+router.put('/cards/:cardId', (req, res) => {
   const cardId = Number(req.params.cardId);
   const { finnish, hungarian } = req.body || {};
   if (!cardId) return res.status(400).json({ error: 'invalid cardId' });
@@ -63,7 +63,7 @@ router.put('/cards/:cardId', async (req, res) => {
 });
 
 // Delete a card
-router.delete('/cards/:cardId', async (req, res) => {
+router.delete('/cards/:cardId', (req, res) => {
   const cardId = Number(req.params.cardId);
   if (!cardId) return res.status(400).json({ error: 'invalid cardId' });
   

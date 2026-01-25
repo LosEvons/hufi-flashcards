@@ -6,7 +6,9 @@ export default function DeckForm({ onSubmit }) {
   
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSubmit?.({ name: name.trim() })
+    if (onSubmit) {
+      onSubmit({ name: name.trim() })
+    }
     setName('')
   }
 

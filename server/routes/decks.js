@@ -3,7 +3,7 @@ const router = express.Router();
 const { all, get, run } = require('../db');
 
 // List decks with card counts
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   try {
     const rows = all(
       `SELECT d.id, d.name, d.created_at,
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create deck
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
   const { name } = req.body || {};
   if (!name) return res.status(400).json({ error: 'name is required' });
   
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 });
 
 // Delete deck (and cascade cards via FK)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', (req, res) => {
   const id = Number(req.params.id);
   if (!id) return res.status(400).json({ error: 'invalid id' });
   

@@ -7,7 +7,9 @@ export default function FlashcardForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSubmit?.({ finnish: finnish.trim(), hungarian: hungarian.trim() })
+    if (onSubmit) {
+      onSubmit({ finnish: finnish.trim(), hungarian: hungarian.trim() })
+    }
     setFinnish('')
     setHungarian('')
   }
