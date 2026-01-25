@@ -1,6 +1,5 @@
--- Suggested schema for hufi-flashcards
--- Improvements included: primary keys, NOT NULL constraints, foreign key with cascade,
--- unique deck name, created_at timestamps and an index on deck_id.
+-- Schema for hufi-flashcards with primary keys, NOT NULL constraints,
+-- foreign key with cascade, unique deck name, timestamps and index on deck_id.
 
 PRAGMA foreign_keys = ON;
 
