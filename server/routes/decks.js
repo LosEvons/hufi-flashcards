@@ -3,7 +3,7 @@ const router = express.Router();
 const { all, get, run } = require('../db');
 
 // List decks with card counts
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const rows = all(
       `SELECT d.id, d.name, d.created_at,
@@ -19,16 +19,17 @@ router.get('/', (req, res) => {
 });
 
 // Create deck
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { name } = req.body || {};
   if (!name) return res.status(400).json({ error: 'name is required' });
+  
   try {
     const info = run('INSERT INTO Deck (name) VALUES (?)', [name]);
     const deck = get('SELECT id, name FROM Deck WHERE id = ?', [info.lastInsertRowid]);
     res.status(201).json(deck);
   } catch (err) {
     console.error(err);
-    if (err && err.code === 'SQLITE_CONSTRAINT') {
+    if (err?.code === 'SQLITE_CONSTRAINT') {
       return res.status(400).json({ error: 'Constraint error', details: err.message });
     }
     res.status(500).json({ error: 'Internal server error' });
@@ -36,9 +37,10 @@ router.post('/', (req, res) => {
 });
 
 // Delete deck (and cascade cards via FK)
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const id = Number(req.params.id);
   if (!id) return res.status(400).json({ error: 'invalid id' });
+  
   try {
     run('DELETE FROM Deck WHERE id = ?', [id]);
     res.status(204).end();

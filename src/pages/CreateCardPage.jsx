@@ -1,9 +1,7 @@
-import React from 'react'
 import FlashcardForm from '../components/FlashcardForm'
 
-function CreateCardPage() {
+export default function CreateCardPage() {
   const handleSubmit = (data) => {
-    // Placeholder: replace with real persistence later
     console.log('New flashcard:', data)
     alert('Flashcard saved (check console)')
   }
@@ -15,5 +13,3 @@ function CreateCardPage() {
     </div>
   )
 }
-
-export default CreateCardPage

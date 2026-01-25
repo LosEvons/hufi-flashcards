@@ -48,3 +48,25 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+/* Form styles */
+.form-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.form-field {
+  display: block;
+  text-align: left;
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* Error message styles */
+.error {
+  color: crimson;
+  margin-bottom: 0.5rem;
+}
