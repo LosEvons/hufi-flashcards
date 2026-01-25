@@ -1,12 +1,8 @@
-import React from 'react'
-
-function FormField({ label, children }) {
+export default function FormField({ label, children }) {
   return (
-    <label style={{ display: 'block', textAlign: 'left' }}>
-      <div style={{ fontWeight: 600, marginBottom: '0.25rem' }}>{label}</div>
+    <label className="form-field">
+      <div className="form-label">{label}</div>
       {children}
     </label>
   )
 }
-
-export default FormField

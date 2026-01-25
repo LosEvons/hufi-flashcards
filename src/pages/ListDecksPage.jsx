@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-function ListDecksPage() {
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000'
+
+export default function ListDecksPage() {
   const [decks, setDecks] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000'
-
   useEffect(() => {
     let mounted = true
+    
     const fetchDecks = async () => {
       setError(null)
       setLoading(true)
+      
       try {
         const res = await fetch(`${API_BASE}/api/decks`)
         if (!res.ok) {
@@ -28,15 +30,13 @@ function ListDecksPage() {
     }
 
     fetchDecks()
-    return () => {
-      mounted = false
-    }
+    return () => { mounted = false }
   }, [])
 
   return (
     <div>
       <h2>Groups</h2>
-      {error && <p style={{ color: 'crimson' }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
       {loading ? (
         <p>Loading...</p>
       ) : decks.length === 0 ? (
@@ -46,7 +46,7 @@ function ListDecksPage() {
           {decks.map((d) => (
             <li key={d.id}>
               <strong>{d.name}</strong>
-              {typeof d.cardCount !== 'undefined' ? ` (${d.cardCount} cards)` : ''}
+              {d.cardCount !== undefined && ` (${d.cardCount} cards)`}
             </li>
           ))}
         </ul>
@@ -54,5 +54,3 @@ function ListDecksPage() {
     </div>
   )
 }
-
-export default ListDecksPage

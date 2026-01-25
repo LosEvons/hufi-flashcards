@@ -1,27 +1,24 @@
-import React, { useState } from 'react'
-import Button from './Button'
+import { useState } from 'react'
 import FormField from './FormField'
 
-function DeckForm({ onSubmit }) {
+export default function DeckForm({ onSubmit }) {
   const [name, setName] = useState('')
+  
   const handleSubmit = (e) => {
     e.preventDefault()
-    const deck = { id: Date.now(), name: name.trim() }
-    if (onSubmit) onSubmit(deck)
+    if (onSubmit) {
+      onSubmit({ name: name.trim() })
+    }
     setName('')
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '0.75rem' }}>
+    <form onSubmit={handleSubmit} className="form-grid">
       <FormField label="Deck name">
         <input value={name} onChange={(e) => setName(e.target.value)} required />
       </FormField>
 
-      <div>
-        <Button type="submit">Create Deck</Button>
-      </div>
+      <button type="submit">Create Deck</button>
     </form>
   )
 }
-
-export default DeckForm

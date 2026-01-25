@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import FormField from './FormField'
-import Button from './Button'
 
-function FlashcardForm({ onSubmit }) {
+export default function FlashcardForm({ onSubmit }) {
   const [finnish, setFinnish] = useState('')
   const [hungarian, setHungarian] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const data = { finnish: finnish.trim(), hungarian: hungarian.trim() }
-    if (onSubmit) onSubmit(data)
+    if (onSubmit) {
+      onSubmit({ finnish: finnish.trim(), hungarian: hungarian.trim() })
+    }
     setFinnish('')
     setHungarian('')
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '0.75rem' }}>
+    <form onSubmit={handleSubmit} className="form-grid">
       <FormField label="Finnish side">
         <textarea value={finnish} onChange={(e) => setFinnish(e.target.value)} rows={4} required />
       </FormField>
@@ -24,11 +24,7 @@ function FlashcardForm({ onSubmit }) {
         <textarea value={hungarian} onChange={(e) => setHungarian(e.target.value)} rows={4} required />
       </FormField>
 
-      <div>
-        <Button>Save Flashcard</Button>
-      </div>
+      <button type="submit">Save Flashcard</button>
     </form>
   )
 }
-
-export default FlashcardForm

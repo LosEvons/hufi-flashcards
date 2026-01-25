@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-function ListCardsPage({ deckId }) {
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000'
+
+export default function ListCardsPage({ deckId }) {
   const [deckName, setDeckName] = useState('')
   const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // TODO: Fetch deck name and cards for `deckId` from the database here.
-    // Example (later):
-    // setLoading(true)
-    // fetch(`/api/decks/${deckId}/cards`)
-    //   .then(r => r.json())
-    //   .then(data => {
-    //     setDeckName(data.deckName)
-    //     setCards(data.cards)
-    //   })
-    //   .finally(() => setLoading(false))
+    if (!deckId) return
+    
+    setLoading(true)
+    fetch(`${API_BASE}/api/decks/${deckId}/cards`)
+      .then(r => r.json())
+      .then(data => {
+        setDeckName(data.deckName)
+        setCards(data.cards)
+      })
+      .catch(err => console.error('Failed to fetch cards:', err))
+      .finally(() => setLoading(false))
   }, [deckId])
 
+  if (loading) return <p>Loading...</p>
+  
   return (
     <div>
       <h2>{deckName || 'Deck'}</h2>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : cards.length === 0 ? (
+      {cards.length === 0 ? (
         <p>No cards yet.</p>
       ) : (
         <ul>
           {cards.map((c) => (
             <li key={c.id}>
               <strong>{c.finnish}</strong>
-              {c.hungarian ? ` — ${c.hungarian}` : ''}
+              {c.hungarian && ` — ${c.hungarian}`}
             </li>
           ))}
         </ul>
@@ -39,5 +41,3 @@ function ListCardsPage({ deckId }) {
     </div>
   )
 }
-
-export default ListCardsPage

@@ -10,10 +10,14 @@ let db = null;
 // Initialize the in-memory DB from disk (or create empty DB)
 async function initDB() {
   if (db) return db;
+  
   SQL = await initSqlJs({ locateFile: file => path.join(__dirname, 'node_modules', 'sql.js', 'dist', file) });
+  
   // ensure directory exists
   const dbDir = path.dirname(DB_PATH);
-  if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+  if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
+  }
 
   if (fs.existsSync(DB_PATH) && fs.statSync(DB_PATH).size > 0) {
     const data = fs.readFileSync(DB_PATH);
@@ -37,7 +41,7 @@ async function migrate() {
     return;
   }
   const sql = fs.readFileSync(schemaPath, 'utf8');
-  if (sql && sql.trim()) {
+  if (sql?.trim()) {
     db.exec(sql);
     fs.writeFileSync(DB_PATH, Buffer.from(db.export()));
   }
@@ -46,7 +50,7 @@ async function migrate() {
 function all(sql, params = []) {
   ensureDb();
   const stmt = db.prepare(sql);
-  if (params && params.length) stmt.bind(params);
+  if (params.length) stmt.bind(params);
   const rows = [];
   while (stmt.step()) {
     rows.push(stmt.getAsObject());
@@ -58,7 +62,7 @@ function all(sql, params = []) {
 function get(sql, params = []) {
   ensureDb();
   const stmt = db.prepare(sql);
-  if (params && params.length) stmt.bind(params);
+  if (params.length) stmt.bind(params);
   let row = undefined;
   if (stmt.step()) row = stmt.getAsObject();
   stmt.free();
@@ -68,24 +72,31 @@ function get(sql, params = []) {
 function run(sql, params = []) {
   ensureDb();
   const stmt = db.prepare(sql);
-  if (params && params.length) stmt.bind(params);
+  if (params.length) stmt.bind(params);
   stmt.step();
   stmt.free();
+  
   // fetch SQLite metadata
   let lastInsertRowid;
   try {
     const last = db.exec('SELECT last_insert_rowid() AS id');
-    if (last && last[0] && last[0].values && last[0].values[0]) lastInsertRowid = last[0].values[0][0];
+    if (last?.[0]?.values?.[0]) {
+      lastInsertRowid = last[0].values[0][0];
+    }
   } catch (e) {
     lastInsertRowid = undefined;
   }
-  let changes = undefined;
+  
+  let changes;
   try {
     const ch = db.exec('SELECT changes() AS changes');
-    if (ch && ch[0] && ch[0].values && ch[0].values[0]) changes = ch[0].values[0][0];
+    if (ch?.[0]?.values?.[0]) {
+      changes = ch[0].values[0][0];
+    }
   } catch (e) {
     changes = undefined;
   }
+  
   // persist
   fs.writeFileSync(DB_PATH, Buffer.from(db.export()));
   return { lastInsertRowid, changes };
